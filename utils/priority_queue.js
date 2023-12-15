@@ -31,6 +31,10 @@ class PriorityQueue{
         return -1;
       }
     }
+
+    isEmpty(){
+        return (this.last == 1);
+    }
   
     topDown(index){
       const left = 2 * index;
@@ -56,5 +60,7 @@ class PriorityQueue{
         this.bottomUp(Math.floor(index / 2));
       }
     }
+
+
   }
   
