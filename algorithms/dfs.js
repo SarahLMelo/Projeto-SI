@@ -1,8 +1,9 @@
 class DFS extends Algorithm {
   constructor(matrix) {
     super(matrix);
-    queue.push(src);
-    this.vis[src[0]][src[1]] = 1;
+    queue.push(this.src);
+    this.vis[this.src[0]][this.src[1]] = 1;
+    this.par[this.src] = [-1, -1];
   }
 
   dfs(node) {
@@ -22,6 +23,7 @@ class DFS extends Algorithm {
         if (y >= 0 && y < this.mat.columns) {
           if (this.vis[x][y] != 0) continue;
           this.vis[x][y] = 1;
+          this.par[[x, y]] = node;
           if (this.dfs([x, y])) return true;
         }
       }

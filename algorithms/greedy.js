@@ -11,6 +11,8 @@ class Greedy extends Algorithm {
          */
     let pq = new PriorityQueue();
     pq.push(0, this.src);
+    this.vis[this.src[0]][this.src[1]] = 1;
+    this.par[this.src] = [-1, -1];
 
     while (!pq.isEmpty()) {
       let [val, node] = pq.top();
@@ -35,6 +37,7 @@ class Greedy extends Algorithm {
             if (this.vis[x][y] != 0) continue;
             pq.push(this.mat[x][y], [x, y]);
             this.vis[x][y] = 1;
+            this.par[[x, y]] = node;
           }
         }
       }

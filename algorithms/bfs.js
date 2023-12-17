@@ -10,8 +10,10 @@ class BFS extends Algorithm {
         2 -> Visited
          */
     let queue = [];
-    queue.push(src);
-    this.vis[src[0]][src[1]] = 1;
+    queue.push(this.src);
+    this.vis[this.src[0]][this.src[1]] = 1;
+
+    this.par[this.src] = [-1, -1];
 
     while (queue.length > 0) {
       let cur = queue[0];
@@ -28,6 +30,7 @@ class BFS extends Algorithm {
           if (y >= 0 && y < this.mat.columns) {
             if (this.vis[x][y] != 0) continue;
             queue.push([x, y]);
+            this.par[[x, y]] = cur;
             this.vis[x][y] = 1;
           }
         }

@@ -9,8 +9,19 @@ class Algorithm {
     this.vis = Array(this.mat.rows).fill.map(() =>
       Array(this.mat.columns).fill(0)
     );
+    this.par = new Object();
 
     this.dest = [Math.floor(Math.random() * (this.n-1)), Math.floor(Math.random() * (this.m-1))];
     this.src = [Math.floor(Math.random() * (this.n-1)), Math.floor(Math.random() * (this.m-1))];
+  }
+
+  getPath() {
+    let path = [];
+    let cur = this.dest;
+    while (cur[0] != -1 && cur[1] != -1) {
+      path.push(cur);
+      cur = this.par[cur];
+    }
+    return path;
   }
 }

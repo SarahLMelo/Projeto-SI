@@ -16,6 +16,7 @@ class UniformCost extends Algorithm {
     pq.push(0, this.src);
     this.dist[this.src[0]][this.src[1]] = 0;
     this.vis[this.src[0]][this.src[1]] = 1;
+    this.par[this.src] = [-1, -1];
 
     while (!pq.isEmpty()) {
       let [val, node] = pq.top();

@@ -16,6 +16,7 @@ class AStar extends Algorithm {
     pq.push(0, this.src);
     this.dist[this.src[0]][this.src[1]] = 0;
     this.vis[this.src[0]][this.src[1]] = 1;
+    this.par[this.src] = [-1, -1];
 
     while (!pq.isEmpty()) {
       let [val, node] = pq.top();
@@ -41,6 +42,7 @@ class AStar extends Algorithm {
             if (this.dist[x][y] + this.mat[x][y] + h >= this.dist[x][y])
               continue;
             this.dist[x][y] = this.dist[x][y] + this.mat[x][y] + h;
+            this.par[[x, y]] = node;
             pq.push(this.dist[x][y], [x, y]);
             this.vis[x][y] = 1;
           }
