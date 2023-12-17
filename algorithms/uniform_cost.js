@@ -42,8 +42,8 @@ class UniformCost extends Algorithm{
 
                 if(x >= 0 && x < this.mat.rows){
                     if(y >= 0 && y < this.mat.columns){
-                        if(this.dist[x][y] + this.grid[x][y] >= this.dist[x][y]) continue;
-                        this.dist[x][y] = this.dist[x][y] + this.grid[x][y]
+                        if(this.dist[x][y] + this.mat[x][y] >= this.dist[x][y]) continue;
+                        this.dist[x][y] = this.dist[x][y] + this.mat[x][y]
                         pq.push(this.dist[x][y], [x, y]);
                         this.vis[x][y] = 1;
                     }

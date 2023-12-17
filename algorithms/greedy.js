@@ -38,7 +38,7 @@ class Greedy extends Algorithm {
         if (x >= 0 && x < this.mat.rows) {
           if (y >= 0 && y < this.mat.columns) {
             if (this.vis[x][y] != 0) continue;
-            pq.push(this.mat.dist(x, y, this.dest), [x, y]);
+            pq.push(this.mat[x][y], [x, y]);
             this.vis[x][y] = 1;
           }
         }
