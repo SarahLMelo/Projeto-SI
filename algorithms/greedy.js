@@ -1,11 +1,6 @@
 class Greedy extends Algorithm {
   constructor(matrix, dest, src) {
-    this.mat = matrix;
-    this.dest = dest;
-    this.src = src;
-    this.vis = Array(this.mat.rows).fill.map(() =>
-      Array(this.mat.columns).fill(0)
-    );
+    super(matrix)
   }
 
   greedy() {

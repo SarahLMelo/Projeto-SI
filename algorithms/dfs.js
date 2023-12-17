@@ -1,12 +1,8 @@
 class DFS extends Algorithm {
-  constructor(matrix, dest, src) {
-    this.mat = matrix;
-    this.vis = Array(this.mat.rows).fill.map(() =>
-      Array(this.mat.columns).fill(0)
-    );
-    this.dest = dest;
+  constructor(matrix) {
+    super(matrix);
     queue.push(src);
-    vis[src[0]][src[1]] = 1;
+    this.vis[src[0]][src[1]] = 1;
   }
 
   dfs(node) {
@@ -16,7 +12,7 @@ class DFS extends Algorithm {
         2 -> Visited
          */
 
-    vis[node[0]][node[1]] = 2;
+    this.vis[node[0]][node[1]] = 2;
     if (node[0] == this.dest[0] && node[1] == this.dest[1]) return true; // Found the destination
 
     for (let i = 0; i < 4; i++) {
@@ -24,8 +20,8 @@ class DFS extends Algorithm {
       const y = node[1] + this.dirY[i];
       if (x >= 0 && x < this.mat.rows) {
         if (y >= 0 && y < this.mat.columns) {
-          if (vis[x][y] != 0) continue;
-          vis[x][y] = 1;
+          if (this.vis[x][y] != 0) continue;
+          this.vis[x][y] = 1;
           if (this.dfs([x, y])) return true;
         }
       }

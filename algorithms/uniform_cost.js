@@ -1,11 +1,6 @@
 class UniformCost extends Algorithm {
-  constructor(matrix, dest, src) {
-    this.mat = matrix;
-    this.dest = dest;
-    this.src = src;
-    this.vis = Array(this.mat.rows).fill.map(() =>
-      Array(this.mat.columns).fill(0)
-    );
+  constructor(matrix) {
+    super(matrix);
     this.dist = Array(this.mat.rows).fill.map(() =>
       Array(this.mat.columns).fill(Infinity)
     );
