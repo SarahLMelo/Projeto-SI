@@ -3,6 +3,7 @@ class BFS extends Algorithm{
         this.mat = matrix;
         this.dest = dest;
         this.src = src;
+        this.vis = Array(this.mat.rows).fill.map(() => Array(this.mat.columns).fill(0));
     }
 
     bfs(){
@@ -12,15 +13,14 @@ class BFS extends Algorithm{
         2 -> Visited
          */
         let queue = []
-        let vis = Array(this.mat.rows).fill.map(() => Array(this.mat.columns).fill(0));
         queue.push(src);
-        vis[src[0]][src[1]] = 1;
+        this.vis[src[0]][src[1]] = 1;
 
         while(queue.length > 0){
             let cur = queue[0];
             queue.shift();
 
-            vis[cur[0]][cur[1]] = 2;
+            this.vis[cur[0]][cur[1]] = 2;
 
             if(cur[0] == this.dest[0] && cur[1] == this.dest[1]) return true; // Found the destination
 
@@ -29,9 +29,9 @@ class BFS extends Algorithm{
                 const y = cur[1] + this.dirY[i];
                 if(x >= 0 && x < this.mat.rows){
                     if(y >= 0 && y < this.mat.columns){
-                        if(vis[x][y] != 0) continue;
+                        if(this.vis[x][y] != 0) continue;
                         queue.push([x, y]);
-                        vis[x][y] = 1;
+                        this.vis[x][y] = 1;
                     }                                                                                                                                       
                 }
             }
