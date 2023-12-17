@@ -1,9 +1,11 @@
 class BFS extends Algorithm{
-    constructor(matrix){
+    constructor(matrix, dest, src){
         this.mat = matrix;
+        this.dest = dest;
+        this.src = src;
     }
 
-    bfs(src){
+    bfs(){
         /*
         0 -> Not visited
         1 -> Border
@@ -19,6 +21,8 @@ class BFS extends Algorithm{
             queue.shift();
 
             vis[cur[0]][cur[1]] = 2;
+
+            if(cur[0] == this.dest[0] && cur[1] == this.dest[1]) return true; // Found the destination
 
             for(let i = 0; i < 4; i++){
                 const x = cur[0] + this.dirX[i];
