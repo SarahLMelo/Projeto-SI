@@ -1,5 +1,5 @@
 class Algorithm {
-  constructor(matrix){
+  constructor(matrix) {
     this.dirX = [1, -1, 0, 0];
     this.dirY = [0, 0, 1, -1];
     this.mat = matrix;
@@ -11,8 +11,14 @@ class Algorithm {
     );
     this.par = new Object();
 
-    this.dest = [Math.floor(Math.random() * (this.n-1)), Math.floor(Math.random() * (this.m-1))];
-    this.src = [Math.floor(Math.random() * (this.n-1)), Math.floor(Math.random() * (this.m-1))];
+    this.dest = [
+      Math.floor(Math.random() * (this.n - 1)),
+      Math.floor(Math.random() * (this.m - 1)),
+    ];
+    this.src = [
+      Math.floor(Math.random() * (this.n - 1)),
+      Math.floor(Math.random() * (this.m - 1)),
+    ];
   }
 
   getPath() {

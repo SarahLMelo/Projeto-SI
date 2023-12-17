@@ -1,6 +1,6 @@
 class Greedy extends Algorithm {
   constructor(matrix, dest, src) {
-    super(matrix)
+    super(matrix);
   }
 
   greedy() {
