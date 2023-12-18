@@ -1,19 +1,21 @@
-let colors, matrix, algo, step, foundFood, foodCount, idx;
+let colors, matrix, algo, step, foundFood, foodCount, idx, flag;
 let path, weight;
+let menu;
+let state = 0;
+let states;
 const terrain = [1, 5, 10, Infinity]
 
 function drawGrid(){
     if(step < algo.steps.length){ 
       let cur = algo.steps[step];
-      print("oi")
       algo.marked[cur[0]][cur[1]] = 1;
     }
     for(var x = 0; x < width; x += 20){
       line(x, 0, x, height);
       line(0, x, width, x);
-	  for(var y = 0; y < height; y += 20){
+    for(var y = 0; y < height; y += 20){
           stroke(0);
-	      strokeWeight(1);
+        strokeWeight(1);
           let i = floor(x/20), j = floor(y/20);
           let color;
           if(matrix[i][j] == Infinity){
@@ -43,18 +45,16 @@ function drawGrid(){
           }
           fill(colors[color]);
           rect(x, y, 20,20);
-		}
-	}
+    }
+  }
     fill(227, 129, 188);
     ellipse(algo.src[0]*20 + 10, algo.src[1]*20 + 10, 10, 10);
         
-    fill(237, 231, 104);
+    fill(255, 235, 59);
     ellipse(algo.dest[0]*20 + 10, algo.dest[1]*20 + 10, 10, 10);
 }
 
-function additionalSetup(){
-  // aqui escolhe o algoritmo
-  // setar cores da matriz aqui
+function additionalSetup(algorithm){
   
   for(var i =0; i < 20; i++){
     for(var j = 0; j < 20;j++){
@@ -62,29 +62,52 @@ function additionalSetup(){
       matrix[i][j] = terrain[floor(t/2)];
     }
   }
-  algo = new UniformCost(matrix);
-  algo.uniformCost();
+  // Aqui ele vê qual opção foi selecionada e roda o algo
+  if (state == 1) {
+    algo = new BFS(matrix);
+    algo.bfs();
+  } else if (state == 2) {
+    algo = new DFS(matrix);
+    algo.dfs();
+  } else if (state == 3) {
+    algo = new Greedy(matrix);
+    algo.greedy();
+  } else if (state == 4) {
+    algo = new UniformCost(matrix);
+    algo.uniformCost();
+  } else if (state == 5) {
+    algo = new AStar(matrix);
+    algo.astar();
+  }
+
   step = 0;
   foundFood = false;
   
 }
 
 function setup() {
-	createCanvas(400, 400);
-    let water = color(0, 128, 255);
+    flag = false;
+  
+  let canva = createCanvas(400, 400);
+    canvaX = (windowWidth - width) / 2;
+    canvaY = (windowHeight - height) / 2;
+    canva.position(canvaX, canvaY);
+  
+    let water = color(81, 120, 143);
     let sand = color(244, 219, 171);
-    let mud = color(70, 120, 70);
+    let mud = color(81, 107, 84);
     let obstacle = color(50, 50, 50);
-    let visited = color(255);
-    let border = color(172, 232, 231);
+    let visited = color(200, 200, 200);
+    let border = color(180, 90, 150);
     colors = [sand, mud, water, obstacle, visited, border];
+  
     matrix = new Array(20);
     for(var i = 0; i < 20; i++){
       matrix[i] = new Array(20);
     }
-    additionalSetup();
-    frameRate(15);
-    foodCount = 0;
+    
+    menu = new Menu(terrain);
+    states = { 1: BFS, 2: DFS, 3: Greedy, 4: UniformCost, 5: AStar };
 }
 
 function markPath(){
@@ -99,7 +122,7 @@ function markPath(){
       for(var k = 0; k<path.length; k++){
         let now = path[k];
         if(now[0] == i && now[1] == j){
-          isMakrked = true;
+          isMarked = true;
         }
       }
     }
@@ -107,13 +130,18 @@ function markPath(){
 }
 
 function drawPath(pos){
-    fill(158, 46, 46);
+    fill("#F8F2F200");
+    stroke(240, 46, 46);
+    strokeWeight(2);
     rect(pos[0]*20, pos[1]*20, 20,20);
     fill(227, 129, 188);
+    stroke(0);
+    strokeWeight(1);
     ellipse(algo.src[0]*20 + 10, algo.src[1]*20 + 10, 10, 10);
         
     fill(237, 231, 104);
     ellipse(algo.dest[0]*20 + 10, algo.dest[1]*20 + 10, 10, 10);
+    fill("#F8F2F200");
 }
 
 function drawWalk(pos){
@@ -122,7 +150,9 @@ function drawWalk(pos){
   }
   
   else{
-    fill(158, 46, 46);
+    fill(240, 46, 46);
+    stroke(0);
+    strokeWeight(2)
     rect(pos[0]*20, pos[1]*20, 20,20);
     
     idx = idx + 1;
@@ -133,8 +163,19 @@ function drawWalk(pos){
 }
 
 function draw(){
+  
+    if (!state) {
+      state = menu.drawMenu();
+    } else if(!flag) {
+      additionalSetup(states[state]);
+      
+      frameRate(15);
+      foodCount = 0;
+      
+      flag = true;
+    }
     
-    if(foundFood == false){
+    else if(foundFood == false){
       drawGrid();
       step = step + 1;
       let dest = algo.dest;
@@ -167,8 +208,8 @@ function draw(){
           additionalSetup();
         }
       }
-      
     }
+      
     // se quebrar, isso é o que tinha antes
     // drawGrid();
     // step = step + 1;

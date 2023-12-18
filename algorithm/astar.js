@@ -25,7 +25,6 @@ class AStar extends Algorithm {
       while (!pq.isEmpty()) {
         let [val, node] = pq.top();
         pq.pop();
-        print(node)
         
         if (this.dist[node[0]][node[1]] < val) {
             continue;
@@ -46,7 +45,7 @@ class AStar extends Algorithm {
           if (x >= 0 && x < this.n) {
             if (y >= 0 && y < this.m) {
               var h = abs(this.dest[0] - x) + abs(this.dest[1] - y);
-              h = floor(h/10);
+              h = floor(h/4);
               if (this.dist[node[0]][node[1]] + this.mat[x][y] + h >= this.dist[x][y]){
                 
                 continue;
