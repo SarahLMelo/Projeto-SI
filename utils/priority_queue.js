@@ -1,12 +1,12 @@
 class PriorityQueue {
   constructor() {
-    this.heap = [[0, 0]];
+    this.heap = [[0, [0, 0]]];
     this.last = 1;
   }
 
   push(val, node) {
     if (this.heap.length === this.last) {
-      this.heap.push([0, 0]);
+      this.heap.push([0, [0, 0]]);
     }
     this.heap[this.last] = [val, node];
     this.last++;
@@ -15,10 +15,9 @@ class PriorityQueue {
 
   pop() {
     if (this.last > 1) {
-      [this.heap[1], this.heap[this.last - 1]] = [
-        this.heap[this.last - 1],
-        this.heap[1],
-      ];
+      let temp = this.heap[1];
+      this.heap[1] = this.heap[this.last-1];
+      this.heap[this.last-1] = temp;
       this.last--;
       this.topDown(1);
     } else {
@@ -52,13 +51,14 @@ class PriorityQueue {
     }
 
     if (right < this.last && this.heap[right][0] < this.heap[left][0]) {
-      [this.heap[index], this.heap[right]] = [
-        this.heap[right],
-        this.heap[index],
-      ];
+      let temp = this.heap[index];
+      this.heap[index] = this.heap[right];
+      this.heap[right] = temp;
       this.topDown(right);
     } else {
-      [this.heap[index], this.heap[left]] = [this.heap[left], this.heap[index]];
+      let temp = this.heap[index];
+      this.heap[index] = this.heap[left];
+      this.heap[left] = temp;
       this.topDown(left);
     }
   }
@@ -67,7 +67,9 @@ class PriorityQueue {
     if (index === 1) return;
     const pai = Math.floor(index / 2);
     if (this.heap[index][0] < this.heap[pai][0]) {
-      [this.heap[index], this.heap[pai]] = [this.heap[pai], this.heap[index]];
+      let temp = this.heap[index];
+      this.heap[index] = this.heap[pai];
+      this.heap[pai] = temp;
       this.bottomUp(pai);
     }
   }
