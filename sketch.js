@@ -93,10 +93,7 @@ function additionalSetup(algorithm){
 
 function setup() {
     flag = false;
-  let canva = createCanvas(400, 400);
-    canvaX = (windowWidth - width) / 2;
-    canvaY = (windowHeight - height) / 2;
-    canva.position(canvaX, canvaY);
+  createCanvas(400, 500);
     let water = color(81, 120, 143);
     let sand = color(244, 219, 171);
     let mud = color(81, 107, 84);
@@ -195,8 +192,8 @@ function messagemComida(color){
      chosenAlgorithm = " "
 }
   let algorithmText = "Algoritmo escolhido:  " + chosenAlgorithm
-  text(algorithmText, 120, 430);
-  text(eat, 100, 480);
+  text(algorithmText, 200, 430);
+  text(eat, 200, 480);
 }
 
 function draw(){
@@ -211,7 +208,7 @@ function draw(){
       background(0, 0, 0);
       additionalSetup(states[state]);
       
-      frameRate(15);
+      frameRate(10);
       foodCount = 0;
       
       flag = true;
