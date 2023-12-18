@@ -42,8 +42,6 @@ class Algorithm {
       ];
     }
     
-    //print(this.src);
-    //print(this.dest);
   }
 
   getPath() {

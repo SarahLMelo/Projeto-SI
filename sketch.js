@@ -1,6 +1,6 @@
 let colors, matrix, algo, step, foundFood, foodCount, idx, flag;
 let path, weight;
-let menu;
+let menu, chosenAlgorithm;
 let state = 0;
 let states;
 const terrain = [1, 5, 10, Infinity]
@@ -10,10 +10,10 @@ function drawGrid(){
       let cur = algo.steps[step];
       algo.marked[cur[0]][cur[1]] = 1;
     }
-    for(var x = 0; x < width; x += 20){
-      line(x, 0, x, height);
-      line(0, x, width, x);
-    for(var y = 0; y < height; y += 20){
+    for(var x = 0; x < 400; x += 20){
+      line(x, 0, x, 400);
+      line(0, x, 400, x);
+    for(var y = 0; y < 400; y += 20){
           stroke(0);
         strokeWeight(1);
           let i = floor(x/20), j = floor(y/20);
@@ -50,11 +50,13 @@ function drawGrid(){
     fill(227, 129, 188);
     ellipse(algo.src[0]*20 + 10, algo.src[1]*20 + 10, 10, 10);
         
-    fill(255, 235, 59);
+    fill(237, 231, 104);
     ellipse(algo.dest[0]*20 + 10, algo.dest[1]*20 + 10, 10, 10);
 }
 
 function additionalSetup(algorithm){
+  // aqui escolhe o algoritmo
+  // setar cores da matriz aqui
   
   for(var i =0; i < 20; i++){
     for(var j = 0; j < 20;j++){
@@ -64,41 +66,43 @@ function additionalSetup(algorithm){
   }
   // Aqui ele vê qual opção foi selecionada e roda o algo
   if (state == 1) {
+    console.log("entrei BFS")
     algo = new BFS(matrix);
     algo.bfs();
   } else if (state == 2) {
+    console.log("entrei DFS")
     algo = new DFS(matrix);
     algo.dfs();
   } else if (state == 3) {
+    console.log("entrei Greedy")
     algo = new Greedy(matrix);
     algo.greedy();
   } else if (state == 4) {
+    console.log("entrei Uniform Cost")
     algo = new UniformCost(matrix);
     algo.uniformCost();
   } else if (state == 5) {
+    console.log("entrei AStar")
     algo = new AStar(matrix);
     algo.astar();
   }
 
   step = 0;
   foundFood = false;
-  
 }
 
 function setup() {
     flag = false;
-  
   let canva = createCanvas(400, 400);
     canvaX = (windowWidth - width) / 2;
     canvaY = (windowHeight - height) / 2;
     canva.position(canvaX, canvaY);
-  
     let water = color(81, 120, 143);
     let sand = color(244, 219, 171);
     let mud = color(81, 107, 84);
     let obstacle = color(50, 50, 50);
+    let border = color(71, 57, 94);
     let visited = color(200, 200, 200);
-    let border = color(180, 90, 150);
     colors = [sand, mud, water, obstacle, visited, border];
   
     matrix = new Array(20);
@@ -110,38 +114,19 @@ function setup() {
     states = { 1: BFS, 2: DFS, 3: Greedy, 4: UniformCost, 5: AStar };
 }
 
-function markPath(){
-  for(var x = 0; x < width; x+= 20){
-    line(x, 0, x, height);
-  }
-  for(var x = 0; x < width; x+= 20){
-    line()
-    for(var y = 0; y < height ; y+=20){
-      let isMarked = false;
-      let i = floor(x/20), j = floor(y/20);
-      for(var k = 0; k<path.length; k++){
-        let now = path[k];
-        if(now[0] == i && now[1] == j){
-          isMarked = true;
-        }
-      }
-    }
-  }
-}
-
 function drawPath(pos){
-    fill("#F8F2F200");
-    stroke(240, 46, 46);
-    strokeWeight(2);
+    strokeWeight(4);
+    noFill();
+    stroke(89, 41, 41);
+
     rect(pos[0]*20, pos[1]*20, 20,20);
-    fill(227, 129, 188);
     stroke(0);
     strokeWeight(1);
+    fill(227, 129, 188);
     ellipse(algo.src[0]*20 + 10, algo.src[1]*20 + 10, 10, 10);
         
     fill(237, 231, 104);
     ellipse(algo.dest[0]*20 + 10, algo.dest[1]*20 + 10, 10, 10);
-    fill("#F8F2F200");
 }
 
 function drawWalk(pos){
@@ -150,9 +135,7 @@ function drawWalk(pos){
   }
   
   else{
-    fill(240, 46, 46);
-    stroke(0);
-    strokeWeight(2)
+    fill(158, 46, 46);
     rect(pos[0]*20, pos[1]*20, 20,20);
     
     idx = idx + 1;
@@ -162,11 +145,70 @@ function drawWalk(pos){
   }
 }
 
+function resetaMatriz(){
+  for(var x = 0; x < 400; x += 20){
+          line(x, 0, x, 400);
+          line(0, x, 400, x);
+          for(var y = 0; y < 400; y += 20){
+              stroke(0);
+              strokeWeight(1);
+              let i = floor(x/20), j = floor(y/20);
+              
+              if(algo.mat[i][j] == Infinity){
+                fill(50, 50, 50);
+              }
+              else{
+                let color = floor(algo.mat[i][j]/5);
+                fill(colors[color]);
+              }
+              rect(x, y, 20, 20);
+                
+
+          }
+              
+        }
+}
+
+function messagemComida(color){
+  stroke(0);
+  strokeWeight(1);
+  textSize(20);
+  fill(color);
+  let eat = "Comidas coletadas: " + foodCount;
+  switch(state) {
+    case 1:
+      chosenAlgorithm = "BFS"
+      break;
+    case 2:
+      chosenAlgorithm = "DFS"
+      break;
+    case 3:
+      chosenAlgorithm = "Greedy"
+      break;
+    case 4:
+      chosenAlgorithm = "Uniform Cost"
+      break;
+    case 5:
+      chosenAlgorithm = "A*"
+      break;
+    default:
+     chosenAlgorithm = " "
+}
+  let algorithmText = "Algoritmo escolhido:  " + chosenAlgorithm
+  text(algorithmText, 120, 430);
+  text(eat, 100, 480);
+}
+
 function draw(){
+    if(state){
+      messagemComida(color(255, 255, 255));
+    }
   
     if (!state) {
+      
       state = menu.drawMenu();
     } else if(!flag) {
+      background(0, 0, 0);
       additionalSetup(states[state]);
       
       frameRate(15);
@@ -182,6 +224,7 @@ function draw(){
       if(algo.marked[dest[0]][dest[1]] == 1){
         foundFood = true;
         path = algo.getPath();
+        resetaMatriz();
         step = 0;
         idx = 0;
       }
@@ -192,8 +235,7 @@ function draw(){
       }
     }
     else{
-      // marcar o path todo 
-      if(step < path.length){
+       if(step < path.length){
         drawPath(path[step]);
         step = step + 1;
       }
@@ -203,6 +245,7 @@ function draw(){
         }
         
         else{
+          messagemComida(color(0, 0, 0));
           foodCount = foodCount + 1;
           print("comidas coletadas: " + foodCount);
           additionalSetup();
@@ -210,9 +253,5 @@ function draw(){
       }
     }
       
-    // se quebrar, isso é o que tinha antes
-    // drawGrid();
-    // step = step + 1;
-    // //print(step);
     
 }

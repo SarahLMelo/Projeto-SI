@@ -48,46 +48,31 @@ class Menu {
       this.hoverEffect(width/2 - 50, height/2 - 70, 100, 40);
       text('BFS', width/2, height/2 - 40);
       cursor(HAND);
-      if (mouseIsPressed) {
-        print("Algotítmo escolhido: BFS");
-        return 1;
-      }
+      if (mouseIsPressed) return 1;
       return 0;
     } else if (this.mouseInArea(width/2 - 50, height/2 -20, 100, 40)) {
       this.hoverEffect(width/2 - 50, height/2 - 20, 100, 40);
       text('DFS', width/2, height/2 + 10);
       cursor(HAND);
-      if (mouseIsPressed) {
-        print("Algorítmo escolhido: DFS");
-        return 2;
-      }
+      if (mouseIsPressed) return 2;
       return 0;
     } else if (this.mouseInArea(width/2 - 50, height/2 + 30, 100, 40)) {
       this.hoverEffect(width/2 - 50, height/2 + 30, 100, 40);
       text('Greedy', width/2, height/2 + 60);
       cursor(HAND);
-      if (mouseIsPressed) {
-        print("Algorítmo escolhido: Greedy");
-        return 3;
-      }
+      if (mouseIsPressed) return 3;
       return 0;
     } else if (this.mouseInArea(width/2 - 50, height/2 + 80, 160, 40)) {
       this.hoverEffect(width/2 - 50 - 30, height/2 + 80, 160, 40);
       text('Uniform Cost', width/2, height/2 + 110);
       cursor(HAND);
-      if (mouseIsPressed) {
-        print("Algorítmo escolhido: Uniform Cost");
-        return 4;
-      }
+      if (mouseIsPressed) return 4;
       return 0;
     } else if (this.mouseInArea(width/2 - 50, height/2 + 130, 100, 40)) {
       this.hoverEffect(width/2 - 50, height/2 + 130, 100, 40);
       text('A*', width/2, height/2 + 160);
       cursor(HAND);
-      if (mouseIsPressed) {
-        print("Algorítmo escolhido: A*");
-        return 5;
-      }
+      if (mouseIsPressed) return 5;
       return 0;
     } else {
       return 0;
