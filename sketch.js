@@ -1,4 +1,4 @@
-let colors, matrix, algo, step, foundFood, foodCount;
+let colors, matrix, algo, step, foundFood, foodCount, idx;
 let path, weight;
 const terrain = [1, 5, 10, Infinity]
 
@@ -71,8 +71,8 @@ function additionalSetup(){
 
 function setup() {
 	createCanvas(400, 400);
-    let water = color(36, 179, 250);
-    let sand = color(244, 234, 213);
+    let water = color(0, 128, 255);
+    let sand = color(244, 219, 171);
     let mud = color(70, 120, 70);
     let obstacle = color(50, 50, 50);
     let visited = color(255);
@@ -83,7 +83,7 @@ function setup() {
       matrix[i] = new Array(20);
     }
     additionalSetup();
-    frameRate(10);
+    frameRate(15);
     foodCount = 0;
 }
 
@@ -106,6 +106,32 @@ function markPath(){
   }
 }
 
+function drawPath(pos){
+    fill(158, 46, 46);
+    rect(pos[0]*20, pos[1]*20, 20,20);
+    fill(227, 129, 188);
+    ellipse(algo.src[0]*20 + 10, algo.src[1]*20 + 10, 10, 10);
+        
+    fill(237, 231, 104);
+    ellipse(algo.dest[0]*20 + 10, algo.dest[1]*20 + 10, 10, 10);
+}
+
+function drawWalk(pos){
+  if(algo.mat[pos[0]][pos[1]] > 0){
+    algo.mat[pos[0]][pos[1]] = algo.mat[pos[0]][pos[1]] - 1;
+  }
+  
+  else{
+    fill(158, 46, 46);
+    rect(pos[0]*20, pos[1]*20, 20,20);
+    
+    idx = idx + 1;
+    algo.src = path[idx];
+    fill(227, 129, 188);
+    ellipse(algo.src[0]*20 + 10, algo.src[1]*20 + 10, 10, 10);
+  }
+}
+
 function draw(){
     
     if(foundFood == false){
@@ -115,6 +141,8 @@ function draw(){
       if(algo.marked[dest[0]][dest[1]] == 1){
         foundFood = true;
         path = algo.getPath();
+        step = 0;
+        idx = 0;
       }
       else{
         if(step == algo.steps.length){
@@ -124,8 +152,21 @@ function draw(){
     }
     else{
       // marcar o path todo 
-      
-      
+      if(step < path.length){
+        drawPath(path[step]);
+        step = step + 1;
+      }
+      else{
+        if(algo.dest != algo.src){
+          drawWalk(algo.src)
+        }
+        
+        else{
+          foodCount = foodCount + 1;
+          print("comidas coletadas: " + foodCount);
+          additionalSetup();
+        }
+      }
       
     }
     // se quebrar, isso é o que tinha antes

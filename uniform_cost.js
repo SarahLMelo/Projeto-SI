@@ -49,6 +49,7 @@ class UniformCost extends Algorithm {
               this.dist[x][y] = this.dist[node[0]][node[1]] + this.mat[x][y];
               pq.push(this.dist[x][y], [x, y]);
               this.vis[x][y] = 1;
+              this.par[[x, y]] = node;
             }
           }
         }
