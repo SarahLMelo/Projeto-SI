@@ -1,5 +1,6 @@
 let colors, matrix, algo, step, foundFood, foodCount;
 let path, weight;
+let menu;
 const terrain = [1, 5, 10, Infinity]
 
 function drawGrid(){
@@ -11,9 +12,9 @@ function drawGrid(){
     for(var x = 0; x < width; x += 20){
       line(x, 0, x, height);
       line(0, x, width, x);
-	  for(var y = 0; y < height; y += 20){
+    for(var y = 0; y < height; y += 20){
           stroke(0);
-	      strokeWeight(1);
+        strokeWeight(1);
           let i = floor(x/20), j = floor(y/20);
           let color;
           if(matrix[i][j] == Infinity){
@@ -43,8 +44,8 @@ function drawGrid(){
           }
           fill(colors[color]);
           rect(x, y, 20,20);
-		}
-	}
+    }
+  }
     fill(227, 129, 188);
     ellipse(algo.src[0]*20 + 10, algo.src[1]*20 + 10, 10, 10);
         
@@ -70,10 +71,20 @@ function additionalSetup(){
 }
 
 function setup() {
-	createCanvas(400, 400);
+  // createCanvas(400, 400);
+    let canva = createCanvas(400, 400);
+    canvaX = (windowWidth - width) / 2;
+    canvaY = (windowHeight - height) / 2;
+    canva.position(canvaX, canvaY);
+  
+    menu = new Menu(terrain);
+  
+    state = menu.drawMenu();
+    print(state);
+  
     let water = color(36, 179, 250);
     let sand = color(244, 234, 213);
-    let mud = color(70, 120, 70);
+    let mud = color(85, 50, 12);
     let obstacle = color(50, 50, 50);
     let visited = color(255);
     let border = color(172, 232, 231);
@@ -110,7 +121,8 @@ function draw(){
     
     if(foundFood == false){
       drawGrid();
-      step = step + 1;
+      state = menu.drawMenu();
+      // step = step + 1;
       let dest = algo.dest;
       if(algo.marked[dest[0]][dest[1]] == 1){
         foundFood = true;
