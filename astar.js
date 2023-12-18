@@ -45,7 +45,6 @@ class AStar extends Algorithm {
   
           if (x >= 0 && x < this.n) {
             if (y >= 0 && y < this.m) {
-              print(x, y, this.dist[x][y], this.mat[x][y])
               var h = abs(this.dest[0] - x) + abs(this.dest[1] - y);
               h = floor(h/10);
               if (this.dist[node[0]][node[1]] + this.mat[x][y] + h >= this.dist[x][y]){
